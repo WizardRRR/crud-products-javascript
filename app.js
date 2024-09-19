@@ -26,6 +26,7 @@ function cargarProducto(id) {
   d.getElementById("id-edicion").value = producto.id;
   d.getElementById("nombre").value = producto.nombre;
   d.getElementById("precio").value = producto.precio;
+  d.getElementById("stock").value = producto.stock;
 
   // actualizando la interfaz del formulario para el modo editar
   d.getElementById("btn-crear").style.display = "none";
@@ -41,6 +42,7 @@ function actualizarUI() {
             <td>${p.id}</td>
             <td>${p.nombre}</td>
             <td>$${p.precio}</td>
+            <td>$${p.stock}</td>
             <td>
                 <button class="btn btn-success" onclick="cargarProducto(${p.id})">Editar</button>
                 <button class="btn btn-danger" onclick="manejarEliminarProducto(${p.id})">Eliminar</button>
@@ -51,11 +53,12 @@ function actualizarUI() {
     .join("");
 }
 
-function validateFormProduct({ nombre, precio }) {
+function validateFormProduct({ nombre, precio, stock }) {
   let regexNotNum = /^(?!\d+$).+/;
-  if (!regexNotNum.test(nombre) || precio <= 0) {
+  if (!regexNotNum.test(nombre) || precio <= 0 || stock < -1) {
     if (!regexNotNum.test(nombre)) alert("El nombre no puede ser un numero");
     if (precio <= 0) alert("El precio debe ser mayor a 0");
+    if (stock < -1) alert("El stock debe ser mayor a 0");
     return false;
   }
   return true;
@@ -68,10 +71,11 @@ function manejarCrearProducto(event) {
   // obteniendo valores de los inputs
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
+  const stock = parseFloat(d.getElementById("stock").value);
 
-  if (!validateFormProduct({ nombre, precio })) return;
+  if (!validateFormProduct({ nombre, precio, stock })) return;
 
-  crearProducto({ nombre, precio });
+  crearProducto({ nombre, precio, stock });
   actualizarUI();
   this.reset();
 }
@@ -85,10 +89,11 @@ function manejarActualizarProducto(event) {
   // obteniendo valores de los inputs
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
+  const stock = parseFloat(d.getElementById("stock").value);
 
-  if (!validateFormProduct({ nombre, precio })) return;
+  if (!validateFormProduct({ nombre, precio, stock })) return;
 
-  actualizarProducto(id, { nombre, precio });
+  actualizarProducto(id, { nombre, precio, stock });
   actualizarUI();
   d.getElementById("formulario-producto").reset();
 

@@ -14,18 +14,25 @@ export function buscarProducto(id) {
   return obtenerProductosConEliminados().find((p) => p.id === id);
 }
 
-export function crearProducto({ nombre, precio }) {
+export function crearProducto({ nombre, precio, stock }) {
   const productos = obtenerProductosConEliminados();
-  productos.push({ id: productos.length + 1, nombre, precio, deletedAt: null });
+  productos.push({
+    id: productos.length + 1,
+    nombre,
+    stock,
+    precio,
+    deletedAt: null,
+  });
   setItemLocalStorage("productos", productos);
 }
 
-export function actualizarProducto(id, { nombre, precio }) {
+export function actualizarProducto(id, { nombre, precio, stock }) {
   const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
   if (!producto) return;
   producto.nombre = nombre;
   producto.precio = precio;
+  producto.stock = stock;
   setItemLocalStorage("productos", productos);
 }
 
