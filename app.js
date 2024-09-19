@@ -4,12 +4,14 @@ import {
   crearProducto,
   eliminarProducto,
   obtenerProductos,
+  obtenerProductosConEliminados,
 } from "./crud-products.js";
 import { setItemLocalStorage } from "./local-storage.js";
 
 const d = document;
 
-if (obtenerProductos() === null) setItemLocalStorage("productos", []);
+if (obtenerProductosConEliminados() === null)
+  setItemLocalStorage("productos", []);
 
 window.cargarProducto = cargarProducto;
 window.manejarEliminarProducto = manejarEliminarProducto;

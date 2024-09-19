@@ -1,21 +1,27 @@
 import { getItemLocalStorage, setItemLocalStorage } from "./local-storage.js";
 
-export function obtenerProductos() {
+export function obtenerProductosConEliminados() {
   return getItemLocalStorage("productos");
 }
 
+export function obtenerProductos() {
+  const productos = getItemLocalStorage("productos");
+  if (!productos) return null;
+  return productos.filter((p) => p.deletedAt === null);
+}
+
 export function buscarProducto(id) {
-  return obtenerProductos().find((p) => p.id === id);
+  return obtenerProductosConEliminados().find((p) => p.id === id);
 }
 
 export function crearProducto({ nombre, precio }) {
-  const productos = obtenerProductos();
-  productos.push({ id: productos.length + 1, nombre, precio });
+  const productos = obtenerProductosConEliminados();
+  productos.push({ id: productos.length + 1, nombre, precio, deletedAt: null });
   setItemLocalStorage("productos", productos);
 }
 
 export function actualizarProducto(id, { nombre, precio }) {
-  const productos = obtenerProductos();
+  const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
   if (!producto) return;
   producto.nombre = nombre;
@@ -24,7 +30,8 @@ export function actualizarProducto(id, { nombre, precio }) {
 }
 
 export function eliminarProducto(id) {
-  const productos = obtenerProductos();
-  const productosActualizados = productos.filter((p) => p.id !== id);
-  setItemLocalStorage("productos", productosActualizados);
+  const productos = obtenerProductosConEliminados();
+  const producto = productos.find((p) => p.id === id);
+  producto.deleteAt = new Date();
+  setItemLocalStorage("productos", productos);
 }
