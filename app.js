@@ -85,7 +85,7 @@ function manejarActualizarProducto(event) {
 
   actualizarProducto(id, { nombre, precio });
   actualizarUI();
-  this.reset();
+  d.getElementById("formulario-producto").reset();
 
   // actualizando la interfaz del formulario para el modo guardar
   d.getElementById("btn-crear").style.display = "inline";
