@@ -1,4 +1,4 @@
-import { getItemLocalStorage, setItemLocalStorage } from "./local-storage";
+import { getItemLocalStorage, setItemLocalStorage } from "./local-storage.js";
 
 export function obtenerProductos() {
   return getItemLocalStorage("productos");

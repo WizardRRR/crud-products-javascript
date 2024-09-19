@@ -5,6 +5,7 @@ import {
   eliminarProducto,
   obtenerProductos,
 } from "./crud-products.js";
+import { setItemLocalStorage } from "./local-storage.js";
 
 const d = document;
 
