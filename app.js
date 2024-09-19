@@ -8,9 +8,7 @@ import {
 
 const d = document;
 
-if (obtenerProductos() === null) {
-  localStorage.setItem("productos", JSON.stringify([]));
-}
+if (obtenerProductos() === null) setItemLocalStorage("productos", []);
 
 window.cargarProducto = cargarProducto;
 window.manejarEliminarProducto = manejarEliminarProducto;

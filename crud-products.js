@@ -1,5 +1,7 @@
+import { getItemLocalStorage, setItemLocalStorage } from "./local-storage";
+
 export function obtenerProductos() {
-  return JSON.parse(localStorage.getItem("productos"));
+  return getItemLocalStorage("productos");
 }
 
 export function buscarProducto(id) {
@@ -9,7 +11,7 @@ export function buscarProducto(id) {
 export function crearProducto({ nombre, precio }) {
   const productos = obtenerProductos();
   productos.push({ id: productos.length + 1, nombre, precio });
-  localStorage.setItem("productos", JSON.stringify(productos));
+  setItemLocalStorage("productos", productos);
 }
 
 export function actualizarProducto(id, { nombre, precio }) {
@@ -18,11 +20,11 @@ export function actualizarProducto(id, { nombre, precio }) {
   if (!producto) return;
   producto.nombre = nombre;
   producto.precio = precio;
-  localStorage.setItem("productos", JSON.stringify(productos));
+  setItemLocalStorage("productos", productos);
 }
 
 export function eliminarProducto(id) {
   const productos = obtenerProductos();
   const productosActualizados = productos.filter((p) => p.id !== id);
-  localStorage.setItem("productos", JSON.stringify(productosActualizados));
+  setItemLocalStorage("productos", productosActualizados);
 }
