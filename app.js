@@ -6,28 +6,29 @@ import {
   obtenerProductos,
 } from "./crud-products.js";
 
+const d = document;
+
 window.cargarProducto = cargarProducto;
 window.manejarEliminarProducto = manejarEliminarProducto;
 
 window.onload = actualizarUI;
-
-document.getElementById("formulario-producto").onsubmit = manejarCrearProducto;
-document.getElementById("btn-actualizar").onclick = manejarActualizarProducto;
+d.getElementById("formulario-producto").onsubmit = manejarCrearProducto;
+d.getElementById("btn-actualizar").onclick = manejarActualizarProducto;
 
 function cargarProducto(id) {
   const producto = buscarProducto(id);
   if (!producto) return;
-  document.getElementById("id-edicion").value = producto.id;
-  document.getElementById("nombre").value = producto.nombre;
-  document.getElementById("precio").value = producto.precio;
+  d.getElementById("id-edicion").value = producto.id;
+  d.getElementById("nombre").value = producto.nombre;
+  d.getElementById("precio").value = producto.precio;
 
   // actualizando la interfaz del formulario para el modo editar
-  document.getElementById("btn-crear").style.display = "none";
-  document.getElementById("btn-actualizar").style.display = "inline";
+  d.getElementById("btn-crear").style.display = "none";
+  d.getElementById("btn-actualizar").style.display = "inline";
 }
 
 function actualizarUI() {
-  const lista = document.getElementById("lista-productos");
+  const lista = d.getElementById("lista-productos");
   lista.innerHTML = obtenerProductos()
     .map(
       (p) => `
@@ -60,8 +61,8 @@ function manejarCrearProducto(event) {
   event.preventDefault();
 
   // obteniendo valores de los inputs
-  const nombre = document.getElementById("nombre").value;
-  const precio = parseFloat(document.getElementById("precio").value);
+  const nombre = d.getElementById("nombre").value;
+  const precio = parseFloat(d.getElementById("precio").value);
 
   if (!validateFormProduct({ nombre, precio })) return;
 
@@ -74,11 +75,11 @@ function manejarActualizarProducto(event) {
   // evitando el comportamiento por defecto de los formularios (recargar la pagina)
   event.preventDefault();
 
-  const id = parseInt(document.getElementById("id-edicion").value);
+  const id = parseInt(d.getElementById("id-edicion").value);
 
   // obteniendo valores de los inputs
-  const nombre = document.getElementById("nombre").value;
-  const precio = parseFloat(document.getElementById("precio").value);
+  const nombre = d.getElementById("nombre").value;
+  const precio = parseFloat(d.getElementById("precio").value);
 
   if (!validateFormProduct({ nombre, precio })) return;
 
@@ -87,8 +88,8 @@ function manejarActualizarProducto(event) {
   this.reset();
 
   // actualizando la interfaz del formulario para el modo guardar
-  document.getElementById("btn-crear").style.display = "inline";
-  document.getElementById("btn-actualizar").style.display = "none";
+  d.getElementById("btn-crear").style.display = "inline";
+  d.getElementById("btn-actualizar").style.display = "none";
 }
 
 function manejarEliminarProducto(id) {
