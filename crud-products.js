@@ -32,6 +32,6 @@ export function actualizarProducto(id, { nombre, precio }) {
 export function eliminarProducto(id) {
   const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
-  producto.deleteAt = new Date();
+  producto.deletedAt = new Date();
   setItemLocalStorage("productos", productos);
 }
