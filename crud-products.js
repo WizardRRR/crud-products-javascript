@@ -31,6 +31,8 @@ export function crearProducto({ nombre, precio, stock }) {
     nombre,
     stock,
     precio,
+    createdAt: new Date(),
+    updatedAt: null,
     deletedAt: null,
   });
   setItemLocalStorage("productos", productos);
@@ -45,6 +47,7 @@ export function actualizarProducto(id, { nombre, precio, stock }) {
   producto.nombre = nombre;
   producto.precio = precio;
   producto.stock = stock;
+  producto.updatedAt = new Date();
   setItemLocalStorage("productos", productos);
 }
 
