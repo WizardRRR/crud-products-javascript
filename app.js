@@ -77,8 +77,12 @@ function manejarCrearProducto(event) {
   const stock = parseFloat(d.getElementById("stock").value);
 
   if (!validateFormProduct({ nombre, precio, stock })) return;
-
-  crearProducto({ nombre, precio, stock });
+  try {
+    crearProducto({ nombre, precio, stock });
+  } catch (err) {
+    alert(err.message);
+    return;
+  }
   actualizarUI();
   this.reset();
 }
@@ -95,7 +99,13 @@ function manejarActualizarProducto(event) {
 
   if (!validateFormProduct({ nombre, precio, stock })) return;
 
-  actualizarProducto(id, { nombre, precio, stock });
+  try {
+    actualizarProducto(id, { nombre, precio, stock });
+  } catch (err) {
+    alert(err.message);
+    return;
+  }
+
   actualizarUI();
   d.getElementById("formulario-producto").reset();
 

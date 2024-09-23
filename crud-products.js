@@ -22,6 +22,10 @@ export function buscarProducto(id) {
 
 export function crearProducto({ nombre, precio, stock }) {
   const productos = obtenerProductosConEliminados();
+
+  if (productos.find((p) => p.nombre === nombre))
+    throw Error("El producto ya existe");
+
   productos.push({
     id: productos.length + 1,
     nombre,
@@ -36,6 +40,8 @@ export function actualizarProducto(id, { nombre, precio, stock }) {
   const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
   if (!producto) return;
+  if (productos.find((producto) => producto.nombre == nombre))
+    throw Error("El producto ya existe");
   producto.nombre = nombre;
   producto.precio = precio;
   producto.stock = stock;
