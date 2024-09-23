@@ -4,6 +4,12 @@ export function obtenerProductosConEliminados() {
   return getItemLocalStorage("productos");
 }
 
+export function obtenerProductosEliminados() {
+  return obtenerProductosConEliminados().filter(
+    (product) => product.deletedAt !== null
+  );
+}
+
 export function obtenerProductos() {
   const productos = getItemLocalStorage("productos");
   if (!productos) return null;
@@ -40,5 +46,12 @@ export function eliminarProducto(id) {
   const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
   producto.deletedAt = new Date();
+  setItemLocalStorage("productos", productos);
+}
+
+export function restaurarProducto(id) {
+  const productos = obtenerProductosConEliminados();
+  const producto = productos.find((p) => p.id === id);
+  producto.deletedAt = null;
   setItemLocalStorage("productos", productos);
 }
