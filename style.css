@@ -145,11 +145,3 @@ th {
     }
   }
 }
-
-#search {
-  width: min(100%, 500px);
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #999999;
-  font-size: 18px;
-}
