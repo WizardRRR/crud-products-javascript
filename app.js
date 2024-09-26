@@ -71,9 +71,12 @@ function validateFormProduct({ nombre, precio, stock }) {
   return true;
 }
 
+
 function manejarCrearProducto(event) {
+  // evitando el comportamiento por defecto de los formularios (recargar la pagina)
   event.preventDefault();
 
+  // obteniendo valores de los inputs
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
   const stock = parseFloat(d.getElementById("stock").value);
@@ -90,9 +93,11 @@ function manejarCrearProducto(event) {
 }
 
 function manejarActualizarProducto(event) {
+  // evitando el comportamiento por defecto de los formularios (recargar la pagina)
   event.preventDefault();
   const id = parseInt(d.getElementById("id-edicion").value);
 
+  // obteniendo valores de los inputs
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
   const stock = parseFloat(d.getElementById("stock").value);
@@ -109,6 +114,7 @@ function manejarActualizarProducto(event) {
   actualizarUI();
   d.getElementById("formulario-producto").reset();
 
+  // actualizando la interfaz del formulario para el modo guardar
   d.getElementById("btn-crear").style.display = "inline";
   d.getElementById("btn-actualizar").style.display = "none";
 }
