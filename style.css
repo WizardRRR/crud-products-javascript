@@ -153,3 +153,22 @@ th {
   border: 1px solid #999999;
   font-size: 18px;
 }
+
+#lista-productos {
+  & td:nth-child(2) {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    & span {
+      font-weight: 600;
+    }
+
+    & img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 99px;
+    }
+  }
+}

@@ -34,6 +34,7 @@ function cargarProducto(id) {
   d.getElementById("nombre").value = producto.nombre;
   d.getElementById("precio").value = producto.precio;
   d.getElementById("stock").value = producto.stock;
+  d.getElementById("photoUri").value = producto.photoUri;
 
   // actualizando la interfaz del formulario para el modo editar
   d.getElementById("btn-crear").style.display = "none";
@@ -47,7 +48,7 @@ function actualizarUI(productos = obtenerProductos()) {
       (p) => `
         <tr>
             <td>${p.id}</td>
-            <td>${p.nombre}</td>
+            <td><img src="${p.photoUri}" alt="${p.nombre}" /> <span>${p.nombre}</span></td>
             <td>$${p.precio}</td>
             <td>${p.stock}</td>
             <td>
@@ -60,17 +61,27 @@ function actualizarUI(productos = obtenerProductos()) {
     .join("");
 }
 
-function validateFormProduct({ nombre, precio, stock }) {
+function validateFormProduct({ nombre, precio, stock, photoUri }) {
   let regexNotNum = /^(?!\d+$).+/;
-  if (!regexNotNum.test(nombre) || precio <= 0 || stock < -1) {
+  const patternValidateImage =
+    /^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)(\?.*)?$/i;
+
+  if (
+    !regexNotNum.test(nombre) ||
+    precio <= 0 ||
+    stock < -1 ||
+    !patternValidateImage.test(photoUri)
+  ) {
     if (!regexNotNum.test(nombre)) alert("El nombre no puede ser un numero");
     if (precio <= 0) alert("El precio debe ser mayor a 0");
     if (stock < -1) alert("El stock debe ser mayor a 0");
+    if (!patternValidateImage.test(photoUri)) {
+      alert("Deber ser la uri de una imagen");
+    }
     return false;
   }
   return true;
 }
-
 
 function manejarCrearProducto(event) {
   // evitando el comportamiento por defecto de los formularios (recargar la pagina)
@@ -80,10 +91,11 @@ function manejarCrearProducto(event) {
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
   const stock = parseFloat(d.getElementById("stock").value);
+  const photoUri = d.getElementById("photoUri").value;
 
-  if (!validateFormProduct({ nombre, precio, stock })) return;
+  if (!validateFormProduct({ nombre, precio, stock, photoUri })) return;
   try {
-    crearProducto({ nombre, precio, stock });
+    crearProducto({ nombre, precio, stock, photoUri });
   } catch (err) {
     alert(err.message);
     return;
@@ -102,11 +114,12 @@ function manejarActualizarProducto(event) {
   const nombre = d.getElementById("nombre").value;
   const precio = parseFloat(d.getElementById("precio").value);
   const stock = parseFloat(d.getElementById("stock").value);
+  const photoUri = d.getElementById("photoUri").value;
 
-  if (!validateFormProduct({ nombre, precio, stock })) return;
+  if (!validateFormProduct({ nombre, precio, stock, photoUri })) return;
 
   try {
-    actualizarProducto(id, { nombre, precio, stock });
+    actualizarProducto(id, { nombre, precio, stock, photoUri });
   } catch (err) {
     alert(err.message);
     return;
@@ -184,12 +197,11 @@ function manejarBotonRestaurarProducto(id) {
   renderizarProductosEliminados();
 }
 
-
 //funciones para el ordenamiento
 function ordenarProductos(campo, orden) {
   let productos = obtenerProductos();
   productos.sort((a, b) => {
-    if (orden === 'asc') {
+    if (orden === "asc") {
       return a[campo] - b[campo];
     } else {
       return b[campo] - a[campo];
@@ -199,8 +211,8 @@ function ordenarProductos(campo, orden) {
 }
 
 function agregarBotonesDeOrdenamiento() {
-  const encabezadoPrecio = d.querySelector('th:nth-child(3)');
-  const encabezadoStock = d.querySelector('th:nth-child(4)');
+  const encabezadoPrecio = d.querySelector("th:nth-child(3)");
+  const encabezadoStock = d.querySelector("th:nth-child(4)");
 
   encabezadoPrecio.innerHTML = `
     Precio

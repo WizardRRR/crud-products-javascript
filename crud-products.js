@@ -20,7 +20,7 @@ export function buscarProducto(id) {
   return obtenerProductosConEliminados().find((p) => p.id === id);
 }
 
-export function crearProducto({ nombre, precio, stock }) {
+export function crearProducto({ nombre, precio, stock, photoUri }) {
   const productos = obtenerProductosConEliminados();
 
   if (productos.find((p) => p.nombre === nombre))
@@ -31,6 +31,7 @@ export function crearProducto({ nombre, precio, stock }) {
     nombre,
     stock,
     precio,
+    photoUri,
     createdAt: new Date(),
     updatedAt: null,
     deletedAt: null,
@@ -38,12 +39,13 @@ export function crearProducto({ nombre, precio, stock }) {
   setItemLocalStorage("productos", productos);
 }
 
-export function actualizarProducto(id, { nombre, precio, stock }) {
+export function actualizarProducto(id, { nombre, precio, stock, photoUri }) {
   const productos = obtenerProductosConEliminados();
   const producto = productos.find((p) => p.id === id);
   if (!producto) return;
   producto.nombre = nombre;
   producto.precio = precio;
+  producto.photoUri = photoUri;
   producto.stock = stock;
   producto.updatedAt = new Date();
   setItemLocalStorage("productos", productos);
