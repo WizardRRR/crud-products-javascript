@@ -1,4 +1,4 @@
-*{
+* {
   padding: 0;
   margin: 0;
   font-family: Arial, sans-serif;
@@ -6,7 +6,7 @@
 .container {
   padding-left: 90px;
 }
-.text-center{
+.text-center {
   display: flex;
   justify-content: center;
   margin-top: 40px;
@@ -14,67 +14,60 @@
   color: #202529;
 }
 
-
-#formulario-producto{
+#formulario-producto {
   display: flex;
-  gap:20px;
-  flex-direction: column
+  gap: 20px;
+  flex-direction: column;
 }
 
-.form-control{
+.form-control {
   padding: 11px;
   width: 260px;
   border-radius: 4px;
   border: none;
-  
 }
 
-.form-control:focus{
+.form-control:focus {
   border: 2px solid blue;
-outline: none;
+  outline: none;
 }
 
-
-#btn-crear{
+#btn-crear {
   background-color: #0d6efd;
   width: 140px;
   color: white;
-  padding: 12px;  
+  padding: 12px;
   border: none;
   border-radius: 4px;
 }
 
 .form-control {
-  border: 1px solid #ccd4da; 
+  border: 1px solid #ccd4da;
 }
-
 
 table {
   width: 90%;
   border-radius: 5px;
   overflow: hidden;
   border-collapse: collapse;
-
-        
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   text-align: left;
-
 }
 
-td{
+td {
   background-color: #f2f2f2;
 }
 th {
   border-bottom: 2px solid #202529;
   color: #333;
   font-weight: bold;
-
 }
 
-.btn{
+.btn {
   width: 90px;
   background-color: #198754;
   padding: 10px;
@@ -83,12 +76,9 @@ th {
   color: #ffff;
   cursor: pointer;
 }
-.btn:last-child{
+.btn:last-child {
   background-color: #dc3545;
 }
-
-
-
 
 #boton-muestra-productos-eliminados {
   background-color: orange;
