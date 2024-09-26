@@ -18,8 +18,12 @@ if (obtenerProductosConEliminados() === null)
 window.cargarProducto = cargarProducto;
 window.manejarEliminarProducto = manejarEliminarProducto;
 window.manejarBotonRestaurarProducto = manejarBotonRestaurarProducto;
+window.ordenarProductos = ordenarProductos;
 
-window.onload = actualizarUI;
+window.onload = () => {
+  actualizarUI();
+  agregarBotonesDeOrdenamiento();
+};
 d.getElementById("formulario-producto").onsubmit = manejarCrearProducto;
 d.getElementById("btn-actualizar").onclick = manejarActualizarProducto;
 
@@ -36,16 +40,16 @@ function cargarProducto(id) {
   d.getElementById("btn-actualizar").style.display = "inline";
 }
 
-function actualizarUI() {
+function actualizarUI(productos = obtenerProductos()) {
   const lista = d.getElementById("lista-productos");
-  lista.innerHTML = obtenerProductos()
+  lista.innerHTML = productos
     .map(
       (p) => `
         <tr>
             <td>${p.id}</td>
             <td>${p.nombre}</td>
             <td>$${p.precio}</td>
-            <td>$${p.stock}</td>
+            <td>${p.stock}</td>
             <td>
                 <button class="btn btn-success" onclick="cargarProducto(${p.id})">Editar</button>
                 <button class="btn btn-danger" onclick="manejarEliminarProducto(${p.id})">Eliminar</button>
@@ -66,6 +70,7 @@ function validateFormProduct({ nombre, precio, stock }) {
   }
   return true;
 }
+
 
 function manejarCrearProducto(event) {
   // evitando el comportamiento por defecto de los formularios (recargar la pagina)
@@ -144,7 +149,7 @@ function renderizarProductosEliminados() {
             <td>${p.id}</td>
             <td>${p.nombre}</td>
             <td>$${p.precio}</td>
-            <td>$${p.stock}</td>
+            <td>${p.stock}</td>
             <td>
                 <button id="boton-restaurar-producto"
                 onclick="manejarBotonRestaurarProducto(${p.id})"
@@ -177,6 +182,37 @@ function manejarBotonRestaurarProducto(id) {
   restaurarProducto(id);
   actualizarUI();
   renderizarProductosEliminados();
+}
+
+
+//funciones para el ordenamiento
+function ordenarProductos(campo, orden) {
+  let productos = obtenerProductos();
+  productos.sort((a, b) => {
+    if (orden === 'asc') {
+      return a[campo] - b[campo];
+    } else {
+      return b[campo] - a[campo];
+    }
+  });
+  actualizarUI(productos);
+}
+
+function agregarBotonesDeOrdenamiento() {
+  const encabezadoPrecio = d.querySelector('th:nth-child(3)');
+  const encabezadoStock = d.querySelector('th:nth-child(4)');
+
+  encabezadoPrecio.innerHTML = `
+    Precio
+    <button onclick="ordenarProductos('precio', 'asc')" class="btn">↑</button>
+    <button onclick="ordenarProductos('precio', 'desc')" class="btn">↓</button>
+  `;
+
+  encabezadoStock.innerHTML = `
+    Stock
+    <button onclick="ordenarProductos('stock', 'asc')" class="btn">↑</button>
+    <button onclick="ordenarProductos('stock', 'desc')" class="btn">↓</button>
+  `;
 }
 
 function manejarBusqueda(event) {
