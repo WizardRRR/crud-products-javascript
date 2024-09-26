@@ -90,6 +90,7 @@ function manejarCrearProducto(event) {
   }
   actualizarUI();
   this.reset();
+  d.getElementById("search").value = "";
 }
 
 function manejarActualizarProducto(event) {
@@ -117,6 +118,7 @@ function manejarActualizarProducto(event) {
   // actualizando la interfaz del formulario para el modo guardar
   d.getElementById("btn-crear").style.display = "inline";
   d.getElementById("btn-actualizar").style.display = "none";
+  d.getElementById("search").value = "";
 }
 
 function manejarEliminarProducto(id) {
@@ -125,6 +127,7 @@ function manejarEliminarProducto(id) {
   eliminarProducto(id);
   actualizarUI();
   renderizarProductosEliminados();
+  d.getElementById("search").value = "";
 }
 
 // funciones para mostrar los productos eliminados
@@ -181,6 +184,7 @@ function manejarBotonRestaurarProducto(id) {
   renderizarProductosEliminados();
 }
 
+
 //funciones para el ordenamiento
 function ordenarProductos(campo, orden) {
   let productos = obtenerProductos();
@@ -210,3 +214,28 @@ function agregarBotonesDeOrdenamiento() {
     <button onclick="ordenarProductos('stock', 'desc')" class="btn">↓</button>
   `;
 }
+
+function manejarBusqueda(event) {
+  const valor = event.target.value;
+  const lista = d.getElementById("lista-productos");
+
+  lista.innerHTML = obtenerProductos()
+    .filter((producto) => producto.nombre.includes(valor))
+    .map(
+      (p) => `
+          <tr>
+              <td>${p.id}</td>
+              <td>${p.nombre}</td>
+              <td>$${p.precio}</td>
+              <td>$${p.stock}</td>
+              <td>
+                  <button class="btn btn-success" onclick="cargarProducto(${p.id})">Editar</button>
+                  <button class="btn btn-danger" onclick="manejarEliminarProducto(${p.id})">Eliminar</button>
+              </td>
+          </tr>
+      `
+    )
+    .join("");
+}
+
+d.getElementById("search").addEventListener("input", manejarBusqueda);
